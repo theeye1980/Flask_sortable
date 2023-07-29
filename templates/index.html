@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag and Drop Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.css">
+</head>
+<body>
+    <table id="sortable-table">
+        <thead>
+            <tr>
+                <th width="120px">Index</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, value in enumerate(article_image) %}
+            <tr data-index="{{ index }}">
+                <td>{{ index }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
+    <script>
+        Sortable.create(document.getElementById('sortable-table').tBodies[0], {
+            onEnd: function (evt) {
+                var table = evt.item.closest('table');
+                var rows = Array.from(table.tBodies[0].querySelectorAll('tr'));
+                var newOrder = rows.map(function (row) {
+                    return row.dataset.index;
+                });
+                console.log(newOrder); // Print the new order to the console (you can send it to the server for saving)
+            }
+        });
+    </script>
+</body>
+</html>
